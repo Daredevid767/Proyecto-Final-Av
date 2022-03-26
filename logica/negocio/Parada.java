@@ -6,7 +6,7 @@ import java.util.ArrayList;
 /**
  * Objeto contenedor de información de parada.
  * @author David Nieto, Nicolás Sabogal 26/03/2022
- * @version 0.5
+ * @version 0.6
  */
 public class Parada {
 
@@ -15,7 +15,9 @@ public class Parada {
 	/** Nombre de la parada */
 	private String nombre;
 	/** Compendio de rutas que visitan la parada. */
-	private List<Ruta> rutas;
+	private List<Integer> rutas;
+	/** Controlador que administra las clases */
+	private controlador.Controlador control;
 
 	/** Crea una Parada con identificador cero y nombre indeterminado. */
 	public Parada() {
@@ -33,21 +35,29 @@ public class Parada {
 	 * @param nombre Nombre de la Parada.
 	 * @param rutas Lista de rutas que visita la parada.
 	 */
-	public Parada(int id, String nombre, List<Ruta> rutas) {
+	public Parada(int id, String nombre, List<Integer> rutas) {
 		this.id = id;
 		this.nombre = nombre;
 		
 		if (rutas == null)
 			this.rutas = new ArrayList<>();
 		else
-			this.rutas = rutas;
+			this.rutas = rutas.subList(0, rutas.size());
+	}
+
+	/**
+	 * Asigna un controlador a la instancia.
+	 * @param controlador Controlador a asignar.
+	 */
+	public void setControlador(controlador.Controlador control) {
+		this.control = control;
 	}
 
 	/**
 	 * Devuelve el identificador de la Parada.
 	 * @return Un entero con el identificador de la Parada.
 	 */
-	public int getId() { return this.id; }
+	public Integer getId() { return this.id; }
 
 	/**
 	 * Devuelve el nombre de la Parada.
@@ -60,8 +70,7 @@ public class Parada {
 	 * @return Un arreglo de Rutas con las rutas que visitan la parada.
 	 */
 	public Ruta[] getRutas() {
-		Ruta[] rutasRutas = new Ruta[this.rutas.size()];
-		return this.rutas.toArray(rutasRutas);
+		return control.getRutas(this.rutas);
 	}
 	
 }

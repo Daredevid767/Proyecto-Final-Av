@@ -1,80 +1,76 @@
 package logica.negocio;
 
+import java.util.List;
 import java.util.ArrayList;
 
 /**
- * Clase encargada de recolectar y administrar registros de pago
- * en paradas del sistema de transporte.
+ * Objeto contenedor de información de parada.
  * @author David Nieto, Nicolás Sabogal 26/03/2022
- * @version 0.5
+ * @version 0.6
  */
-public class Bus implements PuntoAcceso {
+public class Parada {
 
-	/** Lista de paradas a recorrer y recolector de historial. */
-	private Ruta ruta;
-	/** Número de trasbordos generados durante el recorrido de la ruta. */
-	private int transbordosGenerados;
-	/** Conjunto de registros de pago generados. */
-	private ArrayList<Registro> historial;
+	/** Identificador de la parada */
+	private int id;
+	/** Nombre de la parada */
+	private String nombre;
+	/** Compendio de rutas que visitan la parada. */
+	private List<Integer> rutas;
+	/** Controlador que administra las clases */
+	private logica.controlador.Controlador control;
 
-	/**
-	 * Genera una instancia sin una ruta. Inusable.
-	 */
-	public Bus () {
-		this(null);
+	/** Crea una Parada con identificador cero y nombre indeterminado. */
+	public Parada() {
+		this(0, "INDETERMINADO");
 	}
-	/**
-	 * Genera una instancia asociada a la ruta indicada.
-	 * @param ruta Ruta contenedora del bus.
+	/** Crea una Parada con los identificadores y nombres indicados.
+	 * @param id Identificado de la Parada.
+	 * @param nombre Nombre de la Parada.
 	 */
-	public Bus (Ruta ruta) {
-		this.ruta = ruta;
-		this.transbordosGenerados = 0;
-		this.historial = new ArrayList<>();
+	public Parada(int id, String nombre) {
+		this(id, nombre, null);
 	}
-
-	/**
-	 * Devuelve la lista de registros hechos por la instancia.
-	 * @return Un arreglo con los Registros generados por la instancia.
+	/** Crea una Parada con el id, nombre y lista de rutas indicadas.
+	 * @param id Identificador de la Parada.
+	 * @param nombre Nombre de la Parada.
+	 * @param rutas Lista de rutas que visita la parada.
 	 */
-  	public Registro[] getHistorial (){
-		Registro[] historialRegistros = new Registro[this.historial.size()];
-		return this.historial.toArray(historialRegistros);
-  	}
-
-	/**
-	 * Devuelve la ruta contenedora del bus.
-	 * @return Un objeto de tipo ruta que contiene al bus.
-	 */
-	public Ruta getRuta () {
-		return ruta;
-	}
-
-	/**
-	 * Indica que el bus a llegado a una parada.
-	 * Si la parada es una estación, intercambia registros con ella.
-	 * @param Parada a la que llegó el bus.
-	 */
-	public void parar (Parada parada) {
-		//TODO ¿Ultima estación visitada?
-		if (!(parada instanceof EstacionTransmi))
-			return;
-
-		Registro[] registros = ((EstacionTransmi)parada).getEstimados(this);
-		for (Registro registro: registros)
-			this.historial.add(registro);
+	public Parada(int id, String nombre, List<Integer> rutas) {
+		this.id = id;
+		this.nombre = nombre;
 		
-		int cantidad = 0; //TODO
-		this.trasbordosGenerados += cantidad;
-		((EstacionTransmi)parada).recibirTrasbordos(cantidad);
+		if (rutas == null)
+			this.rutas = new ArrayList<>();
+		else
+			this.rutas = rutas.subList(0, rutas.size());
 	}
 
-	// Implementación del método heredado en la interfaz PuntoAcceso.
-	@Override
-	public boolean cobrar (Tarjeta tarjeta) {
-		String servicio = ""; //TODO
-		Registro registro = tarjeta.pagar(servicio);
-		return this.historial.add(registro);
+	/**
+	 * Asigna un controlador a la instancia.
+	 * @param controlador Controlador a asignar.
+	 */
+	public void setControlador(logica.controlador.Controlador control) {
+		this.control = control;
 	}
-  
+
+	/**
+	 * Devuelve el identificador de la Parada.
+	 * @return Un entero con el identificador de la Parada.
+	 */
+	public Integer getId() { return this.id; }
+
+	/**
+	 * Devuelve el nombre de la Parada.
+	 * @return Una cadena con el nombre de la Parada.
+	 */
+	public String getNombre() { return this.nombre; }
+
+	/**
+	 * Devuelve una lista con las rutas que visitan la Parada.
+	 * @return Un arreglo de Rutas con las rutas que visitan la parada.
+	 */
+	public Ruta[] getRutas() {
+		return control.getRutas(this.rutas);
+	}
+	
 }

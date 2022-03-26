@@ -1,5 +1,7 @@
 package logica.negocio;
 
+import java.util.ArrayList;
+
 public class Bus {
   private Ruta ruta;
   private int transbordosGenerados;
@@ -10,6 +12,7 @@ public class Bus {
   }
   
   public Registro[] getHistorial(){
+	  Registro[] historial = new Registro[0];
     return historial;
   }
 

@@ -5,7 +5,7 @@ package logica.persistencia;
  * @author Nicolás Sabogal 25/03/2022
  * @version 1.0
  */
-public interface SubsidiosDAO {
+public interface SubsidioDAO {
     
     /**
      * Devuelve el subsidio con el identificador indicado.

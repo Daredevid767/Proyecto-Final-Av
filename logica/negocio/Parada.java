@@ -1,5 +1,7 @@
 package logica.negocio;
 
+import java.util.ArrayList;
+
 public class Parada {
 
   private int id;

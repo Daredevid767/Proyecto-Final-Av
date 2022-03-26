@@ -17,7 +17,7 @@ public class Parada {
 	/** Compendio de rutas que visitan la parada. */
 	private List<Integer> rutas;
 	/** Controlador que administra las clases */
-	private controlador.Controlador control;
+	private logica.controlador.Controlador control;
 
 	/** Crea una Parada con identificador cero y nombre indeterminado. */
 	public Parada() {
@@ -49,7 +49,7 @@ public class Parada {
 	 * Asigna un controlador a la instancia.
 	 * @param controlador Controlador a asignar.
 	 */
-	public void setControlador(controlador.Controlador control) {
+	public void setControlador(logica.controlador.Controlador control) {
 		this.control = control;
 	}
 

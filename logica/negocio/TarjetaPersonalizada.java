@@ -1,5 +1,7 @@
 package logica.negocio;  
 
+import java.time.Instant;
+
 public class TarjetaPersonalizada extends Tarjeta {
 	private int[] subsidios;
 	private Instant ultimoViaje;

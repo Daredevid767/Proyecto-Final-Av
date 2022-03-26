@@ -10,8 +10,8 @@ import java.util.List;
 
 /**
  * Clase dedicada al análisis y escritura de archivos CSV.
- * @author Nicolás Sabogal 25/03/2022
- * @version 1.0
+ * @author Nicolás Sabogal 26/03/2022
+ * @version 1.1
  */
 public class CSVParser {
 
@@ -48,7 +48,7 @@ public class CSVParser {
         while (true) {
 
             int indice = 0;
-            int desface = 1;
+            boolean comillas = false;
             boolean terminado = false;
             
             if (fila.charAt(0) == '\"') {
@@ -56,19 +56,21 @@ public class CSVParser {
                     if (    (fila.charAt(indice) == '\"')
                          && (fila.charAt(indice + 1) != '\"'))
                         break;
-                desface = 2;
+                comillas = true;
             }
-            else {
-                indice = fila.indexOf(';');
-                if (indice == -1) {
-                    indice = fila.length();
-                    terminado = true;
-                }
+
+            int corte = fila.indexOf(';', indice);
+            if (corte == -1) {
+                corte = fila.length();
+                terminado = true;
+            }
+            if (!comillas) {
+                indice = corte;
             }
 
             String celda = fila.substring(0,indice);
             try {
-                fila = fila.substring(indice + desface);
+                fila = fila.substring(corte + 1);
             }
             catch (StringIndexOutOfBoundsException e) {
                 fila = "";

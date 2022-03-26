@@ -1,3 +1,5 @@
+package logica.negocio;
+
 public class Tarjeta {
     final private int saldo;
 
@@ -5,10 +7,10 @@ public class Tarjeta {
         this.saldo=saldo;
     }
 
-    /*public Registro pagar(String servicio){
+    public Registro pagar(String servicio){
 
 
-    }**/
+    }
 
 
 }

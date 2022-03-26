@@ -4,9 +4,11 @@ public class Tarjeta {
     public Tarjeta(int saldo){
         this.saldo=saldo;
     }
+
     /*public Registro pagar(String servicio){
 
 
     }**/
+
 
 }

@@ -1,10 +1,67 @@
 package logica.negocio;
 
+import java.util.List;
 import java.util.ArrayList;
 
+/**
+ * Objeto contenedor de información de parada.
+ * @author David Nieto, Nicolás Sabogal 26/03/2022
+ * @version 0.5
+ */
 public class Parada {
 
+	/** Identificador de la parada */
 	private int id;
+	/** Nombre de la parada */
 	private String nombre;
-	private ArrayList<Ruta> rutas;
+	/** Compendio de rutas que visitan la parada. */
+	private List<Ruta> rutas;
+
+	/** Crea una Parada con identificador cero y nombre indeterminado. */
+	public Parada() {
+		this(0, "INDETERMINADO");
+	}
+	/** Crea una Parada con los identificadores y nombres indicados.
+	 * @param id Identificado de la Parada.
+	 * @param nombre Nombre de la Parada.
+	 */
+	public Parada(int id, String nombre) {
+		this(id, nombre, null);
+	}
+	/** Crea una Parada con el id, nombre y lista de rutas indicadas.
+	 * @param id Identificador de la Parada.
+	 * @param nombre Nombre de la Parada.
+	 * @param rutas Lista de rutas que visita la parada.
+	 */
+	public Parada(int id, String nombre, List<Ruta> rutas) {
+		this.id = id;
+		this.nombre = nombre;
+		
+		if (rutas == null)
+			this.rutas = new ArrayList<>();
+		else
+			this.rutas = rutas;
+	}
+
+	/**
+	 * Devuelve el identificador de la Parada.
+	 * @return Un entero con el identificador de la Parada.
+	 */
+	public int getId() { return this.id; }
+
+	/**
+	 * Devuelve el nombre de la Parada.
+	 * @return Una cadena con el nombre de la Parada.
+	 */
+	public String getNombre() { return this.nombre; }
+
+	/**
+	 * Devuelve una lista con las rutas que visitan la Parada.
+	 * @return Un arreglo de Rutas con las rutas que visitan la parada.
+	 */
+	public Ruta[] getRutas() {
+		Ruta[] rutasRutas = new Ruta[this.rutas.size()];
+		return this.rutas.toArray(rutasRutas);
+	}
+	
 }

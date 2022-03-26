@@ -2,26 +2,79 @@ package logica.negocio;
 
 import java.util.ArrayList;
 
-public class Bus {
+/**
+ * Clase encargada de recolectar y administrar registros de pago
+ * en paradas del sistema de transporte.
+ * @author David Nieto, Nicolás Sabogal 26/03/2022
+ * @version 0.5
+ */
+public class Bus implements PuntoAcceso {
+
+	/** Lista de paradas a recorrer y recolector de historial. */
 	private Ruta ruta;
+	/** Número de trasbordos generados durante el recorrido de la ruta. */
 	private int transbordosGenerados;
+	/** Conjunto de registros de pago generados. */
 	private ArrayList<Registro> historial;
 
-	public Bus(){
-	
+	/**
+	 * Genera una instancia sin una ruta. Inusable.
+	 */
+	public Bus () {
+		this(null);
 	}
-  
-  	public Registro[] getHistorial(){
-		return null;
+	/**
+	 * Genera una instancia asociada a la ruta indicada.
+	 * @param ruta Ruta contenedora del bus.
+	 */
+	public Bus (Ruta ruta) {
+		this.ruta = ruta;
+		this.transbordosGenerados = 0;
+		this.historial = new ArrayList<>();
+	}
+
+	/**
+	 * Devuelve la lista de registros hechos por la instancia.
+	 * @return Un arreglo con los Registros generados por la instancia.
+	 */
+  	public Registro[] getHistorial (){
+		Registro[] historialRegistros = new Registro[this.historial.size()];
+		return this.historial.toArray(historialRegistros);
   	}
 
-	public Ruta getRuta(){
+	/**
+	 * Devuelve la ruta contenedora del bus.
+	 * @return Un objeto de tipo ruta que contiene al bus.
+	 */
+	public Ruta getRuta () {
 		return ruta;
 	}
-	public void parar(Parada parada){
-	
+
+	/**
+	 * Indica que el bus a llegado a una parada.
+	 * Si la parada es una estación, intercambia registros con ella.
+	 * @param Parada a la que llegó el bus.
+	 */
+	public void parar (Parada parada) {
+		//TODO ¿Ultima estación visitada?
+		if (!(parada instanceof EstacionTransmi))
+			return;
+
+		Registro[] registros = ((EstacionTransmi)parada).getEstimados(this);
+		for (Registro registro: registros)
+			this.historial.add(registro);
+		
+		int cantidad = 0; //TODO
+		this.trasbordosGenerados += cantidad;
+		((EstacionTransmi)parada).recibirTrasbordos(cantidad);
 	}
 
-
+	// Implementación del método heredado en la interfaz PuntoAcceso.
+	@Override
+	public boolean cobrar (Tarjeta tarjeta) {
+		String servicio = ""; //TODO
+		Registro registro = tarjeta.pagar(servicio);
+		return this.historial.add(registro);
+	}
   
 }

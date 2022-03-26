@@ -67,14 +67,14 @@ public class CSVTabla {
      * @return Un cabezal único con un contador junto al cabezal repetido, en caso de ser necesario.
      */
     private String checkRepetido(int cantidad, String cabezal) {
-        String llave_rep = cabezal;
+        String cabezal_rep = cabezal;
         if (cantidad > 0)
-            llave_rep += " (" + cantidad + ")";
+            cabezal_rep += " (" + cantidad + ")";
 
-        if (this.buscarCabezal(cabezal) >= 0)
+        if (this.buscarCabezal(cabezal_rep) >= 0)
             return checkRepetido(cantidad + 1, cabezal);
         
-        return llave_rep;
+        return cabezal_rep;
     }
 
     /**

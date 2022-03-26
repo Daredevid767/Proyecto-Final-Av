@@ -2,6 +2,8 @@ package pruebas;
 
 /**
  * Clase que sirve para probar el funcionamiento de las clases CSVTabla y CSVParser.
+ * @autor Nicolás Sabogal 25/03/2022
+ * @version 1.0
  */
 public class PruebaCSVParser {
     /**

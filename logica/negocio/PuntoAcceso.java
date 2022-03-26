@@ -1,10 +1,10 @@
 package logica.negocio;
 
 public class PuntoAcceso {
-  Private Torniquete torniquete;
+	private Torniquete torniquete;
 
-  public void recibir(Registro registro){
+	public void recibir(Registro registro){
     
-  }
+	}
   
 }

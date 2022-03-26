@@ -1,6 +1,8 @@
 package logica.negocio;
 
 public class Torniquete {
-  private puntoAcceso propietario;
-  
+    private puntoAcceso propietario;
+    public void (Tarjeta tarjeta){
+        
+    }
 }

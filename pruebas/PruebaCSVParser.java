@@ -10,8 +10,12 @@ public class PruebaCSVParser {
      */
     public static void main(String[] args) {
         try {
-            logica.persistencia.CSVTabla a = logica.persistencia.CSVParser.get(args[0] + "\\" + args[1]);
-            logica.persistencia.CSVParser.crear(args[0] + "\\PruebaCSVParserResultado.csv", a);
+            if (!args[0].isEmpty())
+                if (args[0].charAt(args[0].length() - 1) != '\\')
+                    args[0] += "\\";
+
+            logica.persistencia.CSVTabla a = logica.persistencia.CSVParser.get(args[0] + args[1]);
+            logica.persistencia.CSVParser.crear(args[0] + "PruebaCSVParserResultado.csv", a);
         }
         catch (Exception e) {
             e.printStackTrace();

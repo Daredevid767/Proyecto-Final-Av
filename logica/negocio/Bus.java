@@ -1,5 +1,6 @@
 public class Bus {
   private int id;
   private String nombre;
-  private ArrayList
+  private ArrayList<Parada> paradas;
+  private ArrayList<Bus> buses;
 }

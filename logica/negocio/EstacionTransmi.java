@@ -40,7 +40,7 @@ public class EstacionTransmi extends Parada implements PuntoAcceso {
 	@Override
 	public boolean cobrar (Tarjeta tarjeta) {
 		String servicio = ""; //TODO
-		Registro registro = tarjeta.pagar(servicio);
+		Registro registro = tarjeta.pagar(servicio, this);
 		return this.paraAsignar.add(registro);
 	}
 

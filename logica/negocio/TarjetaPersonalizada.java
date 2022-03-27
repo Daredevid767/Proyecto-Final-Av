@@ -17,4 +17,6 @@ public class TarjetaPersonalizada extends Tarjeta {
 	public int getTransbordosActuales(){
     	return this.transbordosActuales;
 	}
+
+	
 }

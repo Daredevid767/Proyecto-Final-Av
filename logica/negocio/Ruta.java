@@ -6,9 +6,18 @@ public class Ruta {
   
 	private int id;
 	private String nombre;
+	private String tipoBus;
 	private ArrayList<Integer> paradas;
 	private ArrayList<Bus> buses;
 	private logica.controlador.Controlador control;
+
+	public Ruta(int id,String nombre,String tipoBus,ArrayList<Integer> paradas,ArrayList<Bus> buses){
+		this.id= id;
+		this.nombre=nombre;
+		this.tipoBus=tipoBus;
+		this.paradas=paradas;
+		this.buses=buses;
+	}
 
     public Integer getId() {
         return id;
@@ -24,5 +33,8 @@ public class Ruta {
 
 	public Parada[] getParadas() {
 		return this.control.getParadas(this.paradas);
+	}
+	public String getTipoBus(){
+		return tipoBus;
 	}
 }

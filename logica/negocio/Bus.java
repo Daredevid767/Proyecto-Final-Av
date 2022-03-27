@@ -10,6 +10,9 @@ import java.util.ArrayList;
  */
 public class Bus implements PuntoAcceso {
 
+	/** parada actual*/
+	private Parada parada;
+
 	/** Lista de paradas a recorrer y recolector de historial. */
 	private Ruta ruta;
 	/** Número de trasbordos generados durante el recorrido de la ruta. */
@@ -56,6 +59,8 @@ public class Bus implements PuntoAcceso {
 	 * @param Parada a la que llegó el bus.
 	 */
 	public void parar (Parada parada) {
+
+		this.parada= parada;
 		//TODO ¿Ultima estación visitada?
 		if (!(parada instanceof EstacionTransmi))
 			return;
@@ -72,9 +77,9 @@ public class Bus implements PuntoAcceso {
 	// Implementación del método heredado en la interfaz PuntoAcceso.
 	@Override
 	public boolean cobrar (Tarjeta tarjeta) {
-		
-		String servicio = ""; //TODO
-		Registro registro = tarjeta.pagar(servicio);
+		String servicio = ruta.getTipoBus(); //TODO
+		String paradaStr = parada.getNombre();
+		Registro registro = tarjeta.pagar(servicio, paradaStr);
 		return this.historial.add(registro);
 	}
   

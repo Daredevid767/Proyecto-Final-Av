@@ -72,5 +72,13 @@ public class Parada {
 	public Ruta[] getRutas() {
 		return control.getRutas(this.rutas);
 	}
+
+	/**
+	 * Devuelve una copia de la lista de identificadores de las rutas que visitan la parada.
+	 * @return Una lista con los identificadores de las rutas que visitan la parada.
+	 */
+	public List<Integer> getRutasId() {
+		return this.rutas.subList(0, this.rutas.size());
+	}
 	
 }

@@ -72,6 +72,8 @@ public class Bus implements PuntoAcceso {
 	// Implementación del método heredado en la interfaz PuntoAcceso.
 	@Override
 	public boolean cobrar (Tarjeta tarjeta) {
+		
+		if(tarjeta.getTransbordosActuales()==)transbordosGenerados+=1;
 		String servicio = ""; //TODO
 		Registro registro = tarjeta.pagar(servicio);
 		return this.historial.add(registro);

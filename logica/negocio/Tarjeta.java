@@ -11,6 +11,10 @@ public class Tarjeta {
     }
 
     public Registro pagar(String servicio){
+
+		
+		
+		
 		//TODO
 		return null;
     }

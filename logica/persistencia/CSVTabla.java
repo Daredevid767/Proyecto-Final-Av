@@ -6,7 +6,7 @@ import java.util.ArrayList;
 /**
  * Clase contenedora de información proveniente de un archivo CSV.
  * @author Nicolás Sabogal 23/03/2022
- * @version 1.5
+ * @version 1.6
  */
 public class CSVTabla {
 
@@ -18,7 +18,7 @@ public class CSVTabla {
     private String direccion;
 
     /**
-     * Genera una CSVTabla con refencias null, inusable.
+     * Genera una CSVTabla con dirección null y tabla vacía.
      */
     public CSVTabla() {
         this(null, null);
@@ -39,15 +39,19 @@ public class CSVTabla {
 
         this.direccion = dirIn;
 
-        if (tablaIn == null) {
-            this.cabezales = null;
-            this.tabla = null;
-            return;
+        boolean tablaVacia = false;
+        if (tablaIn == null)
+            tablaVacia = true;
+
+        if (tablaIn.size() == 0 || tablaVacia) {
+            tablaIn = new ArrayList<>();
+            tablaIn.add(new ArrayList<>());
+            tablaIn.get(0).add("");
         }
 
-        this.cabezales = new ArrayList<>(tablaIn.get(0).size());
+        this.cabezales = new ArrayList<>();
         for (int i = 0; i < tablaIn.get(0).size(); i++)
-            this.cabezales.set(i, this.checkRepetido(0, tablaIn.get(0).get(i)));
+            this.cabezales.add(this.checkRepetido(0, tablaIn.get(0).get(i)));
         
         this.tabla = new ArrayList<>();
         for (int i = 1; i < tablaIn.size(); i++) {
@@ -227,8 +231,11 @@ public class CSVTabla {
         if (this.cabezales.get(cabezal).isEmpty())
             return false;
 
-        while (this.tabla.size() < columna.length)
-            this.tabla.add(new ArrayList<>(this.cabezales.size()));
+        while (this.tabla.size() < columna.length) {
+            this.tabla.add(new ArrayList<>());
+            for (int i = 0; i < this.cabezales.size(); i++)
+                this.tabla.get(this.tabla.size() - 1).add("");
+        }
 
         for (int i = 0; i < this.tabla.size(); i++) {
             if (i >= columna.length) {

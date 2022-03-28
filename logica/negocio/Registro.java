@@ -9,6 +9,7 @@ public class Registro {
 	private int[] subsidios;
 	private String parada;
 	private boolean transbordo;
+	private String nombreBus;
 	
 	
 	public Registro(double valor,int[]subsidios, String parada, boolean transbordo){
@@ -21,6 +22,10 @@ public class Registro {
 
 	public Registro(){
 		transbordo=true;
+	}
+
+	public void setNombreBus(String nombre){
+		nombreBus=nombre;
 	}
 	
 

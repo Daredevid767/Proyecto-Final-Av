@@ -5,7 +5,7 @@ public class Resumen {
 	private String nombreRuta;
 	private int gananciaTotal;
 	private int gananciaPorBus;
-	private int ganaciaPorTiempo;
+	private int gananciaPorTiempo;
 	private int pasajerosTotales;
 	private int pasajerosPorBus;
 	private int pasajerosPorTiempo;

@@ -1,6 +1,7 @@
 package logica.negocio;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Ruta {
   
@@ -9,14 +10,16 @@ public class Ruta {
 	private String tipoBus;
 	private ArrayList<Integer> paradas;
 	private ArrayList<Bus> buses;
+	private List<Registro> registros;
 	private logica.controlador.Controlador control;
 
-	public Ruta(int id,String nombre,String tipoBus,ArrayList<Integer> paradas,ArrayList<Bus> buses){
+	public Ruta(int id,String nombre,String tipoBus,ArrayList<Integer> paradas,ArrayList<Bus> buses,List<Registro> registros){
 		this.id= id;
 		this.nombre=nombre;
 		this.tipoBus=tipoBus;
 		this.paradas=paradas;
 		this.buses=buses;
+		this.registros=registros;
 	}
 
     public Integer getId() {
@@ -36,5 +39,8 @@ public class Ruta {
 	}
 	public String getTipoBus(){
 		return tipoBus;
+	}
+	public void setRegistros(Registro reg){
+		registros.add(reg);	
 	}
 }

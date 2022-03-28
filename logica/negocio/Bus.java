@@ -66,8 +66,13 @@ public class Bus implements PuntoAcceso {
 			return;
 
 		Registro[] registros = ((EstacionTransmi)parada).getEstimados(this);
-		for (Registro registro: registros)
+		Registro registr= new Registro();
+		registr.setNombreBus(ruta.getTipoBus());
+		ruta.setRegistros(registr);
+		for (Registro registro: registros){
 			this.historial.add(registro);
+		}
+			
 		
 		int cantidad = 0; //TODO
 		this.trasbordosGenerados += cantidad;
@@ -80,6 +85,8 @@ public class Bus implements PuntoAcceso {
 		String servicio = ruta.getTipoBus(); //TODO
 		String paradaStr = parada.getNombre();
 		Registro registro = tarjeta.pagar(servicio, paradaStr);
+		registro.setNombreBus(ruta.getTipoBus());
+		ruta.setRegistros(registro);
 		return this.historial.add(registro);
 	}
   

@@ -20,9 +20,5 @@ public class Resumen {
 		this.pasajerosPorBus=pasajerosPorBus;
 		this.pasajerosPorTiempo=pasajerosPorTiempo;
 
-
-		
 	}
-	
-	
 }

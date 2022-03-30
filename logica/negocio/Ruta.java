@@ -8,23 +8,31 @@ public class Ruta {
 	private int id;
 	private String nombre;
 	private String tipoBus;
-	private ArrayList<Integer> paradas;
-	private ArrayList<Bus> buses;
+	private List<Bus> buses;
+	private List<Integer> paradas;
 	private List<Registro> historial;
 	private logica.controlador.Controlador control;
 
-	public Ruta(int id,String nombre,String tipoBus,ArrayList<Integer> paradas,ArrayList<Bus> buses,List<Registro> registros){
+	public Ruta(int id, String nombre, String tipoBus, int numBuses, List<Integer> paradas, List<Registro> historial){
 		this.id= id;
 		this.nombre=nombre;
 		this.tipoBus=tipoBus;
+
+		this.buses = new ArrayList<>();
+		for (int i = 0; i < numBuses; i++)
+			this.buses.add(new Bus());
+
 		this.paradas=paradas;
-		this.buses=buses;
-		this.historial=registros;
+		this.historial = historial;
 	}
 
     public Integer getId() {
         return id;
     }
+
+	public String getNombre() {
+		return this.nombre;
+	}
 
 	/**
 	 * Asigna un controlador a la instancia.
@@ -40,8 +48,30 @@ public class Ruta {
 	public String getTipoBus(){
 		return tipoBus;
 	}
-	public void setRegistros(Registro reg){
-		historial.add(reg);	
+
+	public double getPrecio(String tipoPago) {
+	    String servicio;
+	    switch (this.tipoBus){
+			case "Troncal":
+				servicio="TRONCAL";
+				break;
+			case "Dual" :
+				servicio= "TRONCAL";
+				break;
+			case "Sitp":
+				servicio= "URBANO";
+				break;
+			default:
+				servicio = "";
+			
+	    }
+		return this.control.getTarifa(servicio,tipoPago);
+		
+	}
+
+	public int getParadasRestantes(Parada parada){
+		
+		return paradas.size() - paradas.indexOf(parada);
 	}
 
 	/**
@@ -81,7 +111,9 @@ public class Ruta {
 	 * @param registro Registro a añadir.
 	 * @return Verdadero, si el registro fue añadido.
 	 */
-	public boolean recibirRegistro(Registro registro) {
+	public boolean recibirRegistro(Registro registro, Bus bus) {
+		id = buses.indexOf(bus) + 1;
+		registro.setBus(id);
 		return this.historial.add(registro);
 	}
 }

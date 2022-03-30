@@ -1,5 +1,7 @@
 package logica.negocio;
 
+
+
 public class Tarjeta {
      private int saldo;
 
@@ -9,29 +11,18 @@ public class Tarjeta {
     public Tarjeta(int saldo){
         this.saldo = saldo;
     }
+	
+	
+    public Registro pagar(String servicio,String parada,double precio){
 
-    public Registro pagar(String servicio,String parada){
-		
-		if(servicio.equals("Troncal")||servicio.equals("Dual")){
-			if(saldo>=2650){
-				saldo=saldo-2650;
-				return new Registro(2650.0,new int[0],parada,false);
-			}
-				return null;
+		if(saldo>=precio){
+			saldo=saldo-precio;
+			return new Registro(precio,false,parada,false);
 		}
-		
-		if(servicio.equals("Sitp")){
-			if(saldo>=2500){
-				saldo=saldo-2500;
-				return new Registro(2650.0,new int[0],parada,false);
-			}else{
-				return null;
-			}
-		}
-		
-		
-		//TODO
 		return null;
     }
+	public String getTipoPago(){
+		return "completo";
+	}
 
 }

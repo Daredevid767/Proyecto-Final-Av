@@ -10,15 +10,22 @@ import java.util.ArrayList;
  */
 public class Bus implements PuntoAcceso {
 
+	
+
 	/** parada actual*/
-	private Parada parada;
+	private Parada paradaActual;
+
+	/** pasajeros actuales*/
+	private int pasajerosActuales;
+
+	/** pasajeros que se han bajado*/
+	private int pasajerosQueSeHanBajado;
+
 
 	/** Lista de paradas a recorrer y recolector de historial. */
 	private Ruta ruta;
-	/** Número de trasbordos generados durante el recorrido de la ruta. */
-	private int trasbordosGenerados;
 	/** Conjunto de registros de pago generados. */
-	private ArrayList<Registro> historial;
+	private int registrosRecibidos;
 
 	/**
 	 * Genera una instancia sin una ruta. Inusable.
@@ -32,18 +39,10 @@ public class Bus implements PuntoAcceso {
 	 */
 	public Bus (Ruta ruta) {
 		this.ruta = ruta;
-		this.trasbordosGenerados = 0;
-		this.historial = new ArrayList<>();
+		this.registrosRecibidos = 0;
+		this.pasajerosActuales = 0;
+		this.pasajerosQueSeHanBajado=0;
 	}
-
-	/**
-	 * Devuelve la lista de registros hechos por la instancia.
-	 * @return Un arreglo con los Registros generados por la instancia.
-	 */
-  	public Registro[] getHistorial (){
-		Registro[] historialRegistros = new Registro[this.historial.size()];
-		return this.historial.toArray(historialRegistros);
-  	}
 
 	/**
 	 * Devuelve la ruta contenedora del bus.
@@ -59,32 +58,50 @@ public class Bus implements PuntoAcceso {
 	 * @param Parada a la que llegó el bus.
 	 */
 	public void parar (Parada parada) {
+		/**Es la cantidad de personas que salen del bus en la parada actual*/
+		int salientes=0;
+		/**se define la parada actual*/
+		this.paradaActual= parada;
 
-		this.parada= parada;
-		//TODO ¿Ultima estación visitada?
+		if (	parada instanceof EstacionTransmi 
+		     && (parada!=(ruta.getParadas()[ruta.getParadas().length - 1])) ) {
+			
+			Registro[] entrantes = parada.getEntrantes(this);
+			
+			regitrosRecibidos += entrantes.length;
+			for (Registro entrante: entrantes) 
+				ruta.recibirRegistro(entrante, this);
+		}
+		
+		/**Se calcula la cantidad de pasajeros que se bajan
+		*/
+		
+		pasajerosActuales = registrosRecibidos - pasajerosQueSeHanBajado;
+		
+		salientes=(pasajerosActuales/(ruta.getParadasRestantes(parada)));
+
+		pasajerosQueSeHanBajado += salientes;
+		
+		
 		if (!(parada instanceof EstacionTransmi))
 			return;
 
-		Registro[] registros = ((EstacionTransmi)parada).getEstimados(this);
-		Registro registr= new Registro();
-		registr.setNombreBus(ruta.getTipoBus());
-		ruta.setRegistros(registr);
-		for (Registro registro: registros){
-			this.historial.add(registro);
-		}
-			
+		int trasbordos = 0;
+		for (int i = 0; i < salientes; i++)
+			if (Math.random() < parada.getPosiblidadTrasbordo())
+				trasbordos++;
 		
-		int cantidad = 0; //TODO
-		this.trasbordosGenerados += cantidad;
-		((EstacionTransmi)parada).recibirTrasbordos(cantidad);
+		((EstacionTransmi)parada).recibirTrasbordos(trasbordos);
 	}
 
 	// Implementación del método heredado en la interfaz PuntoAcceso.
 	@Override
 	public boolean cobrar (Tarjeta tarjeta) {
-		String servicio = ruta.getTipoBus(); //TODO
-		String paradaStr = parada.getNombre();
-		Registro registro = tarjeta.pagar(servicio, paradaStr);
+		registrosRecibidos+=1;
+		String servicio = ruta.getTipoBus();
+		String paradaStr = paradaActual.getNombre();
+		double precio= ruta.getPrecio(tarjeta.getTipoPago());
+		Registro registro = tarjeta.pagar(servicio, paradaStr,precio);
 		registro.setNombreBus(ruta.getTipoBus());
 		ruta.setRegistros(registro);
 		return this.historial.add(registro);

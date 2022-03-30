@@ -6,8 +6,8 @@ import java.util.Arrays;
 
 /**
  * Clase contenedora de información proveniente de un archivo CSV.
- * @author Nicolás Sabogal 29/03/2022
- * @version 1.7
+ * @author Nicolás Sabogal 30/03/2022
+ * @version 1.71
  */
 public class CSVTabla {
 
@@ -310,6 +310,20 @@ public class CSVTabla {
         }
 
         return this.tabla.add(filaList);
+    }
+
+    /**
+     * Borra la fila indicada de la tabla. No usar en clases que usen
+     * el número de fila como indicador.
+     * @param fila Número de fila a borrar.
+     * @return Verdadero si la fila fue eliminada con éxito.
+     */
+    public boolean borrarFila(int fila) {
+        if (fila < 0 || fila > this.tabla.size())
+            return false;
+
+        this.tabla.remove(fila);
+        return true;
     }
 
     /**

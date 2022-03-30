@@ -33,15 +33,34 @@ public class EstacionTransmi extends Parada implements PuntoAcceso {
 	 */
 	public void recibirTrasbordos (int cantidad){
     	for (int i = 0; i < cantidad; i++)
-			this.paraAsignar.add(new Registro());
+			this.paraAsignar.add(new Registro(this));
+	}
+	/**
+	*Crea un arreglo de registros que son los pasajeros entrantes estimados de una estación a un bus
+	*@return arreglo de entrantes
+	*/
+	public Registros[] getEntrantes(Bus bus){
+		Registro[]entrantes;
+		int entrantesPorBus=0;
+		//calculo de entrantes
+		for(int i = 0; i < entrantesPorBus; i++){
+			
+			int pos = (int) Math.floor(Math.random()*paraAsignar.size()+1.0);
+			entrantes[i]= paraAsignar.get(pos);
+			this.paraAsignar.remove(pos);
+      
+		}
+		
+		return entrantes;
 	}
 
 	// Implementación del método heredado de la interfaz PuntoAcceso.
 	@Override
 	public boolean cobrar (Tarjeta tarjeta) {
-		String servicio = ""; //TODO
+		String servicio = "Troncal";
 		String paradaStr= this.getNombre();
-		Registro registro = tarjeta.pagar(servicio, paradaStr);
+		double precio= this.control.getTarifa(servicio,tarjeta.getTipoPago());
+		Registro registro = tarjeta.pagar(servicio, paradaStr,precio);
 		return this.paraAsignar.add(registro);
 	}
 

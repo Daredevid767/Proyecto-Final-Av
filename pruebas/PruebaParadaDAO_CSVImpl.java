@@ -28,6 +28,9 @@ public class PruebaParadaDAO_CSVImpl {
         ParadaDAO_CSVImpl dao = new ParadaDAO_CSVImpl(args[0] + args[1]);
         Parada[] paradasLeidas = dao.getTodos();
 
+        for (Parada parada: paradasLeidas)
+            System.out.println(parada.getNombre());
+
         List<Integer> rutas0 = new ArrayList<>();
         for (int i = 0; i < 4; i++)
             rutas0.add(i);

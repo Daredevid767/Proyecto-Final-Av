@@ -14,9 +14,8 @@ public class TarjetaPersonalizada extends Tarjeta {
 	public int[] getSusidios(){
     	return this.subsidios;
 	}
+	
 	public int getTransbordosActuales(){
     	return this.transbordosActuales;
 	}
-
-	
 }

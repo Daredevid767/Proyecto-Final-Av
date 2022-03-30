@@ -15,8 +15,8 @@ public class Registro {
 		this(0, null, 0, false, nombreParada, true);
 	}
 	
-	public Registro(int bus, double valor, boolean subsidio, String nombreParada, boolean trasbordo) {
-		this(bus, null, valor, subsidio, nombreParada, trasbordo);
+	public Registro(double valor, boolean subsidio, String nombreParada, boolean trasbordo) {
+		this(0, null, valor, subsidio, nombreParada, trasbordo);
 	}
 
 	public Registro(int bus, Instant instante, double valor, boolean subsidio, String nombreParada, boolean trasbordo){

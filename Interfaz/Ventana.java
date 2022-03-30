@@ -1,4 +1,4 @@
-import javax.swing.*;
+    import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import java.awt.*;
@@ -9,44 +9,50 @@ public class Ventana extends JFrame implements MouseListener{
     private JPanel pnlSuperior, pnlInferior, pnlDinero, pnlPasajero, pnlTarjeta;
     private JTextField jtxtBuscador;
     private JButton jbtDinero, jbtPasajero, jbtTarjeta;
-    private java.util.List<java.util.List<String>> lsTroncal, lsDual, lsSitp;
+    private java.util.List<java.util.List<String>> lsTroncal, lsDual, lsSitp, lsParada, lsEstacion;
     private JTable tblTabla = new JTable();
     private boolean[] columnas = new boolean[11];
     private boolean[] tipos = new boolean[3];
     private JScrollPane tabla;
+    private Color base = new Color(110,190,240);
 
-    Ventana(java.util.List<java.util.List<String>> cadenas){
+    public Ventana(){
 
+        //Configuracion del JFrame
         this.setSize(500, 500);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.getContentPane().setBackground(new Color(110,190,240));
+        this.getContentPane().setBackground(base);
         this.setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
 
-        this.Cargar(cadenas);
+        //Basura
         for(int i=0;i<11;i++)columnas[i]=true;
         for(int i=0;i<3;i++)tipos[i]=false;
         tipos[0]=true;
 
-
+        //Configuracion Panel Superior
         pnlSuperior = new JPanel();
         pnlSuperior.setMaximumSize(new Dimension(100000,150));
         pnlSuperior.setPreferredSize(new Dimension(1000,150));
         pnlSuperior.setMinimumSize(new Dimension(1,150));
-        pnlSuperior.setBackground(this.getContentPane().getBackground());
+        pnlSuperior.setBackground(base);
         pnlSuperior.setLayout(new BoxLayout(pnlSuperior,BoxLayout.Y_AXIS));
 
+        //Configuracion del panel de busqueda
         JPanel pnlBuscador = new JPanel();
         pnlBuscador.setLayout(new BoxLayout(pnlBuscador,BoxLayout.X_AXIS));
         pnlBuscador.setPreferredSize(new Dimension(10000,15));
         pnlBuscador.setMaximumSize(new Dimension(100000,15));
-        pnlBuscador.setBackground(this.getContentPane().getBackground());
+        pnlBuscador.setBackground(base);
         
+        //Jtext del buscador
         jtxtBuscador = new JTextField();
 
+        //Añadir elementos al panel de busqueda
         pnlBuscador.add(Box.createRigidArea(new Dimension(75,0)));
         pnlBuscador.add(jtxtBuscador);
         pnlBuscador.add(Box.createRigidArea(new Dimension(75,0)));
 
+        //Basura
         JPanel pnlBotones = new JPanel();
         pnlBotones.setLayout(new BoxLayout(pnlBotones,BoxLayout.X_AXIS));
         pnlBotones.setPreferredSize(new Dimension(10000,40));
@@ -86,10 +92,12 @@ public class Ventana extends JFrame implements MouseListener{
         pnlSuperior.add(pnlBotones);
         pnlSuperior.add(Box.createVerticalGlue());
 
+        //Configuracion del panel inferior
         pnlInferior = new JPanel();
         pnlInferior.setLayout(new BorderLayout());
-        pnlInferior.setBackground(this.getContentPane().getBackground());
+        pnlInferior.setBackground(base);
 
+        //Bordes del panel inferior
         JPanel bordeLat = new JPanel();
         bordeLat.setMaximumSize(new Dimension(15,100000));
         bordeLat.setBackground(this.getContentPane().getBackground());
@@ -100,6 +108,7 @@ public class Ventana extends JFrame implements MouseListener{
         bordeInf.setMaximumSize(new Dimension(1000000,15));
         bordeInf.setBackground(this.getContentPane().getBackground());
 
+        //Basura
         JPanel pnlPestañas = new JPanel();
         pnlPestañas.setMaximumSize(new Dimension(100000,25));
         pnlPestañas.setPreferredSize(new Dimension(1000,25));
@@ -126,9 +135,13 @@ public class Ventana extends JFrame implements MouseListener{
         pnlPestañas.add(jbtSitp);
         pnlPestañas.add(Box.createRigidArea(new Dimension(10,0)));
         
-        tblTabla = new JTable(new ModeloTabla(mostrar(),columnas));
-        tabla = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        tabla.setViewportView(tblTabla);
+        //tblTabla = new JTable(new ModeloTabla(mostrar(),columnas));
+        Actualizar();
+        tabla = new JScrollPane(this.tblTabla,ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        //tabla.setBounds(0, 0, pnlInferior.getWidth()-20, pnlInferior.getHeight()-10);
+        //tabla.setSize(this.getWidth()-20, pnlInferior.getHeight()-10);
+        //tabla.setViewportView(tblTabla);
+        //tabla.setSize(new Dimension(200,200));
         //tabla.setBackground(Color.GREEN);
 
         
@@ -138,10 +151,6 @@ public class Ventana extends JFrame implements MouseListener{
         pnlInferior.add(bordeLatIzq,BorderLayout.WEST);
         pnlInferior.add(bordeInf,BorderLayout.SOUTH);
         pnlInferior.add(tabla,BorderLayout.CENTER);
-
-        
-
-
         this.add(pnlSuperior);
         this.add(pnlInferior);
         this.setVisible(true);
@@ -162,7 +171,11 @@ public class Ventana extends JFrame implements MouseListener{
                 datos.add(list);
 
         if(tipos[3])
-            for (java.util.List<String> list : lsParadas)
+            for (java.util.List<String> list : lsParada)
+                datos.add(list);
+
+        if(tipos[4])
+            for (java.util.List<String> list : lsParada)
                 datos.add(list);
         return datos;
     }
@@ -186,9 +199,16 @@ public class Ventana extends JFrame implements MouseListener{
                 break;
                 default:
             }
+            switch (l.get(1)){
+                case "Parada":
+                    lsParada.add(l);
+                break;
+                case "Estacion":
+                    lsEstacion.add(l);
+                break;
+                default:
+            }
         }
-        tblTabla = new JTable(new ModeloTabla(mostrar(),columnas));
-        repaint();
     }
 
     /**
@@ -197,25 +217,32 @@ public class Ventana extends JFrame implements MouseListener{
 	 * @param min valor minimo que retorna
 	 * @return largo de la columna
 	 */
-	private int autoAjustado(int c, int min)
+	private int autoAjustado(int c)
 	{
-		int largo = 0;
-        tblTabla.get
-		for(int i = 0; i < lista.size(); i++)
+		int largo = tblTabla.getColumnName(c).length();;
+		for(int i = 0; i < tblTabla.getRowCount(); i++)
 		{
-			String[] cadena = lista.get(i).getAtributosTabla();
-			String caden = cadena[c];
+            String caden  = (String) tblTabla.getValueAt(i, c);
 			try { largo = (caden.length() > largo) ? caden.length() : largo; } catch (Exception e) {}
 		}
-		largo = (min > largo) ? min : largo;
-		largo = largo * 9;
+		largo = largo * 8;
 		return largo;
 	}
 
     private void Actualizar(){
         //tabla.removeAll();
-        tblTabla.setModel(new DefaultTableModel());
-        tabla.setViewportView(tblTabla);
+        tblTabla.setModel(new ModeloTabla(mostrar(),columnas));
+		tblTabla.setAutoResizeMode(0);
+        int dimension = 0;
+        for(int i = 0; i < tblTabla.getColumnCount(); i++)
+            dimension += autoAjustado(i);
+        if (dimension > (this.getWidth()-20))
+            for(int i = 0; i < tblTabla.getColumnCount(); i++)
+                tblTabla.getColumnModel().getColumn(i).setMinWidth(autoAjustado(i));
+        else
+            for(int i = 0; i < tblTabla.getColumnCount(); i++)
+                tblTabla.getColumnModel().getColumn(i).setMinWidth((this.getWidth()-20)/tblTabla.getColumnCount());
+        //tabla.setViewportView(tblTabla);
         //tabla.add(tblTabla);
         revalidate();
         repaint();

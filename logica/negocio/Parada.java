@@ -10,14 +10,18 @@ import java.util.ArrayList;
  */
 public class Parada {
 
+	public static final double POSIBILIDAD_TRASBORDO_POR_DEFECTO = 0.3;
+	
+	/**Posiblidad de transbordo*/
+	protected double posibilidad;
 	/** Identificador de la parada */
-	private int id;
+	protected int id;
 	/** Nombre de la parada */
-	private String nombre;
+	protected String nombre;
 	/** Compendio de rutas que visitan la parada. */
-	private List<Integer> rutas;
+	protected List<Integer> rutas;
 	/** Controlador que administra las clases */
-	private logica.controlador.Controlador control;
+	protected logica.controlador.Controlador control;
 
 	/** Crea una Parada con identificador cero y nombre indeterminado. */
 	public Parada() {
@@ -28,14 +32,23 @@ public class Parada {
 	 * @param nombre Nombre de la Parada.
 	 */
 	public Parada(int id, String nombre) {
-		this(id, nombre, null);
+		this(id, nombre, null, POSIBILIDAD_TRASBORDO_POR_DEFECTO);
 	}
+	/** Crea una Parada con los identificadores, nombres indicados y posibilidad.
+	 * @param id Identificado de la Parada.
+	 * @param nombre Nombre de la Parada.
+	 * @param posibilidad Posibilidad de que se haga trasbordo en la parada
+	 */
+	public Parada(int id, String nombre,double posibilidad) {
+		this(id, nombre, null, posibilidad);
+	}
+	
 	/** Crea una Parada con el id, nombre y lista de rutas indicadas.
 	 * @param id Identificador de la Parada.
 	 * @param nombre Nombre de la Parada.
 	 * @param rutas Lista de rutas que visita la parada.
 	 */
-	public Parada(int id, String nombre, List<Integer> rutas) {
+	public Parada(int id, String nombre, List<Integer> rutas, double posibilidadTrasbordo) {
 		this.id = id;
 		this.nombre = nombre;
 		
@@ -43,6 +56,13 @@ public class Parada {
 			this.rutas = new ArrayList<>();
 		else
 			this.rutas = rutas.subList(0, rutas.size());
+
+		if (posibilidadTrasbordo > 1)
+			this.posibilidad = 1;
+		else if (posiblidadTrasbordo < 0)
+			this.posiblidad = 0;
+		else
+			this.posiblididad = posibilidadTrasbordo;
 	}
 
 	/**
@@ -80,7 +100,13 @@ public class Parada {
 	public List<Integer> getRutasId() {
 		return this.rutas.subList(0, this.rutas.size());
 	}
-
+	/**
+	*Devuelve la posibilidad de que un pasajero se baje en esta parada
+	*@return un double entre 0 y 1 que simboliza la posibiliad de que un pasajero de que haga trasbordo
+	*/
+	public double getPosibilidadTrasbordo(){
+		return posibilidad;
+	}
 	/**
 	 * Retorna los atributos en un arreglo de Strings para que sean procesados y guardados en un archivo csv.
 	 * @return Un arreglo de Strings con el valor de los atributos.

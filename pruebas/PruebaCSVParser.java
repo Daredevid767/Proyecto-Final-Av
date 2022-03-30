@@ -20,8 +20,8 @@ public class PruebaCSVParser {
                     args[0] += "/";
 			}
 
-            logica.persistencia.CSVTabla tabla = logica.persistencia.CSVParser.get(args[0] + args[1]);
-            logica.persistencia.CSVParser.crear(args[0] + "PruebaCSVParserResultado.csv", tabla);
+            logica.persistencia.CSVTabla a = logica.persistencia.CSVParser.get(args[0] + args[1]);
+            logica.persistencia.CSVParser.crear(args[0] + "PruebaCSVParserResultado.csv", a);
         }
         catch (Exception e) {
             e.printStackTrace();

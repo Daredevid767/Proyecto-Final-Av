@@ -80,5 +80,23 @@ public class Parada {
 	public List<Integer> getRutasId() {
 		return this.rutas.subList(0, this.rutas.size());
 	}
+
+	/**
+	 * Retorna los atributos en un arreglo de Strings para que sean procesados y guardados en un archivo csv.
+	 * @return Un arreglo de Strings con el valor de los atributos.
+	 */
+	public String[] getAtributosCSV() {
+		String[] atributos = new String[2];
+
+		atributos[0] = nombre;
+
+		atributos[1] = "";
+		for (int i = 0; i < this.rutas.size(); i++)
+			atributos[1] += rutas.get(i) + ",";
+		if (!atributos[1].isEmpty())
+			atributos[1] = atributos[3].substring(0, atributos[1].length() - 1);
+
+		return atributos;
+	}
 	
 }

@@ -2,11 +2,12 @@ package logica.persistencia;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Clase contenedora de información proveniente de un archivo CSV.
- * @author Nicolás Sabogal 23/03/2022
- * @version 1.6
+ * @author Nicolás Sabogal 29/03/2022
+ * @version 1.7
  */
 public class CSVTabla {
 
@@ -62,6 +63,11 @@ public class CSVTabla {
 
             tabla.add(fila);
         }
+    }
+
+    public CSVTabla(String[] cabezales) {
+        this.cabezales = Arrays.asList(cabezales);
+        this.tabla = new ArrayList<>();
     }
 
     /**
@@ -300,7 +306,7 @@ public class CSVTabla {
             if (fila[i] == null)
                 fila[i] = "";
 
-            filaList.set(i, fila[i]);
+            filaList.add(fila[i]);
         }
 
         return this.tabla.add(filaList);
@@ -327,7 +333,7 @@ public class CSVTabla {
              ||    fila < 0 ||    fila >= this.tabla.size()     )
             return null;
 
-        return this.tabla.get(cabezal).get(fila);
+        return this.tabla.get(fila).get(cabezal);
     }
 
     /**
@@ -351,6 +357,21 @@ public class CSVTabla {
 
         this.tabla.get(fila).set(cabezal, cadena);
         return true;
+    }
+
+    /**
+     * Remplaza la celda en la posición indicada.
+     * @param cabezal Índice del cabezal asociado a la columna indicada.
+     * @param fila Índice de la fila indicada.
+     * @param cadena Cadena a instertar en la posición indicada.
+     * @return Falso si alguno de los índices se sale de los límites o el cabezal está vacío o no es encontrado.
+     * Verdadero si el cambio fue exitoso.
+     */
+    public boolean setCelda (String cabezal, int fila, String cadena) {
+        int index = this.buscarCabezal(cabezal);
+        if (index < 0)
+            return false;
+        return this.setCelda(index, fila, cadena);
     }
 
 }

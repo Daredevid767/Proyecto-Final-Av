@@ -1,5 +1,6 @@
-cero;uno;cero (1);uno (1)
-0;0;0;0
-1;2;1;2
-2;;2;
-3;;3;
+nombre;rutas
+San Martín;1,2,3,4,5
+cero;0,1,2,3
+uno;0,2
+cero;0,1,2,3
+uno;0,2
